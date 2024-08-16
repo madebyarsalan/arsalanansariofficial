@@ -145,9 +145,17 @@
 }
 
 @layer base {
-  *,
-  *::before,
-  *::after {
+  a,
+  ul,
+  li,
+  img,
+  svg,
+  nav,
+  main,
+  aside,
+  header,
+  article,
+  section {
     @apply transition-all duration-500;
   }
 

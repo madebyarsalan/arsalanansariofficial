@@ -12,6 +12,7 @@ export default function Home() {
   const [articleFilter, setArticle] = useState('About');
   const [projectFilter, setProjectFilter] = useState('All');
   const [isAccordianOpen, setIsAccordianOpen] = useState(false);
+  const [isConfirmationOpen, setConfirmation] = useState(false);
 
   const filteredProjects = person.projects.filter(project =>
     projectFilter === 'All' ? true : project.category === projectFilter
@@ -58,7 +59,7 @@ export default function Home() {
         <div
           className={cn(
             `sidebar_more-info space-y-4 lg:static lg:h-auto lg:w-auto lg:scale-100`,
-            !isAccordianOpen && 'hidden'
+            !isAccordianOpen && 'hidden lg:block'
           )}
         >
           <ul className="info_contact-list grid items-start gap-4 gap-y-4 border-b border-t border-jet py-4 sm:grid-cols-2 md:grid-cols-2 md:gap-8 md:gap-y-8 md:py-10 lg:grid-cols-1 lg:gap-4 lg:border-b-0 lg:py-4">
@@ -423,7 +424,7 @@ export default function Home() {
                           <img
                             alt={project.title}
                             src={project.image}
-                            className="image-box_img object-cover-- absolute inset-0 aspect-video h-full w-full object-center"
+                            className="image-box_img absolute inset-0 aspect-video h-full w-full object-contain"
                           />
                         </figure>
                         <h3 className="item_title text-base font-semibold text-white-2">
@@ -463,7 +464,7 @@ export default function Home() {
                           <img
                             alt={blog.title}
                             src={blog.image}
-                            className="image-box_img absolute inset-0 aspect-video h-full w-full"
+                            className="image-box_img absolute inset-0 aspect-video h-full w-full object-contain"
                           />
                         </figure>
                         <div className="item_content space-y-2 rounded-b-xl p-4">
@@ -504,10 +505,31 @@ export default function Home() {
               </figure>
             </section>
             <section className="contact_form space-y-4">
+              <ShadDial.Dialog
+                open={isConfirmationOpen}
+                onOpenChange={setConfirmation}
+              >
+                <ShadDial.DialogContent className="bg-eerie-black-2 text-white">
+                  <ShadDial.DialogHeader>
+                    <ShadDial.DialogTitle className="text-white-1">
+                      🎊 Message Received
+                    </ShadDial.DialogTitle>
+                    <ShadDial.DialogDescription className="text-light-gray-70">
+                      I have received your message, will meet you shortly 🚀
+                    </ShadDial.DialogDescription>
+                  </ShadDial.DialogHeader>
+                </ShadDial.DialogContent>
+              </ShadDial.Dialog>
               <h3 className="form_form-title text-base font-semibold text-white-2">
                 Contact Form
               </h3>
-              <form className="contact_form-form flex flex-col gap-4">
+              <form
+                className="contact_form-form flex flex-col gap-4"
+                onSubmit={event => {
+                  event.preventDefault();
+                  setConfirmation(true);
+                }}
+              >
                 <div className="form_input-wrapper space-y-4">
                   <input
                     type="text"
